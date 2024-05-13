@@ -26,20 +26,23 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
-user = ""
 
 
+user=""
 @app.route("/<string:name>")
 def index(name):
+    session["name"]=name
+    global user
+    user=session["name"]
     with sqlite3.connect("database.db") as connect:
         cursor = connect.cursor()
-        cursor.execute("SELECT * FROM posts")
+        cursor.execute("SELECT * FROM posts WHERE username = ?", (session["name"],)) 
         data = cursor.fetchall()
 
         # Render the HTML template inside templates/<name>/name.html
         temp = name + "/index.html"
-        global user
-        user = name
+        
+
 
         return render_template(temp, data=data)
 
@@ -77,7 +80,7 @@ def lofinform():
 @app.route("/admin")
 def admin():
     try:
-        if session["name"]:
+        if session["username"]:
             return render_template("admin.html")
     except:
         pass
@@ -121,13 +124,13 @@ def upload_file():
         with sqlite3.connect("database.db") as users:
             cursor = users.cursor()
             cursor.execute(
-                """INSERT INTO posts  
-                (postID,media,title,caption,time) VALUES (?,?,?,?,?)""",
-                (randommm, new_filename, title, text, time),
+                f"""INSERT INTO posts  
+                (postID,media,title,caption,time,username) VALUES (?,?,?,?,?,?)""",
+                (randommm, new_filename, title, text, time, session.get("username")),
             )
             users.commit()
 
-        return redirect(url_for("index"))
+        return redirect(url_for("index",name=session.get("username")))
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -144,8 +147,8 @@ def loginform():
         for all in data:
             if username in all:
                 if password == all[1]:
-                    session["name"] = username
-                    return redirect(url_for("index"))
+                    session["username"] = username
+                    return redirect(url_for("index",name=session["username"]))
                 else:
                     return f"Wrong Password"
         return "Wrong Username"
