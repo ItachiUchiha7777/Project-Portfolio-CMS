@@ -81,14 +81,14 @@
 
 <body>
     <div class="container">
-        <img src="{{ url_for('static', filename='img/login.png') }}" alt="" id="bg">
+        <img style="width:50%;height:auto" src="https://img.freepik.com/free-vector/login-concept-illustration_114360-739.jpg" alt="" id="bg">
 
         <h2>Login</h2>
         <form action="{{ url_for('loginform') }}" method="post">
 
             <div class="form-group">
                 <label for="username">UID:</label>
-                <input type="text" id="username" name="username" required placeholder="Registration number">
+                <input type="text" id="username" name="username" required placeholder="Username">
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
