@@ -197,13 +197,12 @@ def profile(postid):
 
 
 @app.route("/delete/<postid>")
-def search_user(postid):
+def delte(postid):
     connect = sqlite3.connect("database.db")
     cursor = connect.cursor()
 
-    cursor.execute("SELECT * FROM users WHERE postID=?", (postid,))
-    data_in = cursor.fetchall()
-    return data_in
+    cursor.execute("Delete FROM users WHERE postID=?", (postid,))
+    return redirect(url_for("index",name=session["username"]))
 
 @app.route("/books")
 def books():
