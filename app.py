@@ -83,6 +83,9 @@ def logout():
     user = session.pop("username", None)
     return redirect(url_for('index', name=session['name']))
 
+
+# ye hamare team ke lie
+
 @app.route("/advitiya")
 def advitiya():
     return render_template("advitiya.html",)
