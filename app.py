@@ -27,7 +27,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
 
-
+# this is to make different file render by same url
 user=""
 @app.route("/<string:name>")
 def index(name):
@@ -90,14 +90,14 @@ def logout():
 def advitiya():
     return render_template("advitiya.html",)
 
-@app.route("/admin")
-def admin():
-    try:
-        if session["username"]:
-            return render_template("admin.html")
-    except:
-        pass
-    return redirect(url_for("login"))
+# @app.route("/admin")
+# def admin():
+#     try:
+#         if session["username"]:
+#             return render_template("admin.html")
+#     except:
+#         pass
+#     return redirect(url_for("login"))
 
 
 @app.route("/upload")
