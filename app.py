@@ -29,6 +29,10 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 # this is to make different file render by same url
 user=""
+@app.route("/")
+def home():
+    name = random.choice(["shubham", "geeta"])
+    return redirect(url_for('index', name=name))
 @app.route("/<string:name>")
 def index(name):
 
@@ -102,7 +106,7 @@ def advitiya():
 
 @app.route("/upload")
 def upload_form():
-    if session.get("name"):
+    if session.get("username"):
         return render_template("upload.html")
     else:
         return redirect(url_for("login"))
